@@ -25,10 +25,10 @@ model User {
 model Shop {
   id           String         @id @default(cuid())
   name         String
-  address      String
-  phones       String
-  description  String
-  imageUrl     String
+  address      String?        @db.LongText
+  phone        String?
+  description  String         @db.LongText
+  imageUrl     String         @db.LongText
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   ShopServices ShopServices[]
@@ -37,8 +37,8 @@ model Shop {
 model ShopServices {
   id          String    @id @default(uuid())
   name        String
-  description String
-  imageUrl    String
+  description String    @db.LongText
+  imageUrl    String    @db.LongText
   price       Decimal   @db.Decimal(10, 2)
   shopId      String
   shop        Shop      @relation(fields: [shopId], references: [id])
