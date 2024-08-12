@@ -6,8 +6,12 @@ import Image from "next/image"
 import { Card, CardContent } from "./_components/ui/card"
 import { Badge } from "./_components/ui/badge"
 import { Avatar, AvatarImage } from "./_components/ui/avatar"
+import { db } from "./_lib/prisma"
+import ShopItem from "./_components/shop-item"
 
-const Home = () => {
+const Home = async () => {
+  const shops = await db.shop.findMany({})
+
   return (
     <div>
       <Header />
@@ -34,7 +38,10 @@ IMAGEM */}
         </div>
 
         {/* AGENDAMENTO */}
-        <Card className="mt-6">
+        <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+          Agendamentos
+        </h2>
+        <Card>
           <CardContent className="flex justify-between p-0">
             {/* ESQUERDA */}
             <div className="flex flex-col gap-2 py-5 pl-5">
@@ -55,6 +62,16 @@ IMAGEM */}
             </div>
           </CardContent>
         </Card>
+        {/* RECOMENDADOS */}
+        <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+          Recomendados
+        </h2>
+
+        <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+          {shops.map((shop) => (
+            <ShopItem key={shop.id} shop={shop} />
+          ))}
+        </div>
       </div>
     </div>
   )
