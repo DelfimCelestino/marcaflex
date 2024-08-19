@@ -23,7 +23,7 @@ model User {
 }
 
 model Shop {
-  id           String         @id @default(cuid())
+  id           String         @id @default(uuid())
   name         String
   address      String?        @db.LongText
   phone        String?

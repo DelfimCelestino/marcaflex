@@ -25,6 +25,7 @@ const Home = async () => {
         <p>Segunda-feira, 12 de agosto.</p>
 
         {/* BUSCA */}
+
         <div className="mt-6 flex items-center gap-2">
           <Input placeholder="Faça sua Busca..." />
           <Button>
@@ -33,6 +34,7 @@ const Home = async () => {
         </div>
 
         {/* BUSCA RAPIDA */}
+
         <div className="mt-6 flex gap-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden">
           {quickSearchOptions.map((option) => (
             <Button key={option.title} className="gap-2" variant={"secondary"}>
@@ -59,8 +61,11 @@ IMAGEM */}
         </div>
 
         {/* AGENDAMENTO */}
+
         <BookingItem />
+
         {/* RECOMENDADOS */}
+
         <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
           Recomendados
         </h2>
@@ -70,7 +75,9 @@ IMAGEM */}
             <ShopItem key={shop.id} shop={shop} />
           ))}
         </div>
+
         {/* Populares */}
+
         <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
           Populares
         </h2>
@@ -81,6 +88,8 @@ IMAGEM */}
           ))}
         </div>
       </div>
+
+      {/* FOOTER */}
       <footer>
         <Card>
           <CardContent className="px-5 py-6">
