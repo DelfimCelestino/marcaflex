@@ -84,7 +84,7 @@ model ShopServices {
   name        String
   description String    @db.LongText
   imageUrl    String    @db.LongText
-  price       Decimal   @db.Decimal(10, 2)
+  price       String
   shopId      String
   shop        Shop      @relation(fields: [shopId], references: [id])
   Booking     Booking[]

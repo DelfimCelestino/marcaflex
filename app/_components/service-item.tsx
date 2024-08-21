@@ -25,7 +25,7 @@ import SignInDialog from "./sign-in-dialog"
 
 interface ServiceItemProps {
   service: ShopServices
-  shop: Pick<Shop, "name">
+  shop: Shop
 }
 
 const TIME_LIST = [
@@ -79,7 +79,7 @@ const ServiceItem = ({ service, shop }: ServiceItemProps) => {
     const fetch = async () => {
       const bookings = await getBookings({
         date: selectedDay,
-        servideId: service.id,
+        serviceId: service.id,
       })
       setDaysBookings(bookings)
     }
@@ -119,9 +119,9 @@ const ServiceItem = ({ service, shop }: ServiceItemProps) => {
         minutes: minute,
       })
       await createBooking({
-        userId: (data?.user as any).id,
         serviceId: service.id,
         date: newDate,
+        shopId: shop.id,
       })
 
       toast.success("Reserva efetuada com sucesso")
