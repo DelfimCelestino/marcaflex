@@ -62,14 +62,8 @@ const getTimeList = ({ bookings, selectedDay }: GetTimeListProps) => {
   return TIME_LIST.filter((time) => {
     const hour = Number(time.split(":")[0])
     const minutes = Number(time.split(":")[1])
-    const timeZone = "Africa/Harare"
 
-    const timeIsOnThePast = isPast(
-      set(new Date().toLocaleString("en-US", { timeZone }), {
-        hours: hour,
-        minutes,
-      }),
-    )
+    const timeIsOnThePast = isPast(set(new Date(), { hours: hour, minutes }))
     if (timeIsOnThePast && isToday(selectedDay)) {
       return false
     }
