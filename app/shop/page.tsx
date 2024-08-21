@@ -12,9 +12,22 @@ interface ShopsProps {
 const Shops = async ({ searchParams }: ShopsProps) => {
   const shops = await db.shop.findMany({
     where: {
-      name: {
-        contains: searchParams?.search,
-      },
+      OR: [
+        {
+          name: {
+            contains: searchParams?.search,
+          },
+        },
+        {
+          ShopServices: {
+            some: {
+              name: {
+                contains: searchParams?.search,
+              },
+            },
+          },
+        },
+      ],
     },
   })
 
