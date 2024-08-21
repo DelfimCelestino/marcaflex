@@ -7,20 +7,13 @@ import { quickSearchOptions } from "../_constants/search"
 import { Avatar, AvatarImage } from "./ui/avatar"
 import Link from "next/link"
 import Image from "next/image"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTrigger,
-  DialogTitle,
-} from "./ui/dialog"
-import { signIn, signOut, useSession } from "next-auth/react"
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog"
+import { signOut, useSession } from "next-auth/react"
+import SignInDialog from "./sign-in-dialog"
 
 const SidebarSheet = () => {
   const { data } = useSession()
 
-  const handleLoginWithGoogleClick = () => signIn("google")
   const handleLogoutClick = () => signOut()
 
   return (
@@ -49,15 +42,7 @@ const SidebarSheet = () => {
               </Button>
             </DialogTrigger>
             <DialogContent className="w-[90%]">
-              <DialogHeader>
-                <DialogTitle>Olá! Faça seu login na plataforma!</DialogTitle>
-                <DialogDescription>
-                  Conecte-se usando sua conta Google.
-                </DialogDescription>
-              </DialogHeader>
-              <Button onClick={handleLoginWithGoogleClick} variant={"outline"}>
-                Iniciar Sessão com google
-              </Button>
+              <SignInDialog />
             </DialogContent>
           </Dialog>
         </div>
@@ -93,16 +78,18 @@ const SidebarSheet = () => {
           </SheetClose>
         ))}
       </div>
-      <div className="flex flex-col gap-2 py-5">
-        <Button
-          onClick={handleLogoutClick}
-          variant={"ghost"}
-          className="justify-start gap-2"
-        >
-          <LogOutIcon size={18} />
-          Sair da conta
-        </Button>
-      </div>
+      {data?.user && (
+        <div className="flex flex-col gap-2 py-5">
+          <Button
+            onClick={handleLogoutClick}
+            variant={"ghost"}
+            className="justify-start gap-2"
+          >
+            <LogOutIcon size={18} />
+            Sair da conta
+          </Button>
+        </div>
+      )}
     </SheetContent>
   )
 }
