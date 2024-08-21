@@ -15,7 +15,7 @@ import {
 import { Calendar } from "./ui/calendar"
 import { ptBR } from "date-fns/locale"
 import { useEffect, useState } from "react"
-import { format, set } from "date-fns"
+import { format, isSameDay, set } from "date-fns"
 import { createBooking } from "../_actions/create-booking"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner"
@@ -45,21 +45,21 @@ const TIME_LIST = [
   "21:00",
 ]
 
-const getTimeList = (bookings: Booking[]) => {
+const getTimeList = (bookings: Booking[], selectedDay: Date) => {
   return TIME_LIST.filter((time) => {
-    const hour = Number(time.split(":")[0])
-    const minutes = Number(time.split(":")[1])
+    const [hour, minutes] = time.split(":").map(Number)
 
-    const hasBookingOnCurrentTIme = bookings.some(
+    const hasBookingOnCurrentTime = bookings.some(
       (booking) =>
         booking.date.getHours() === hour &&
         booking.date.getMinutes() === minutes,
     )
 
-    if (hasBookingOnCurrentTIme) {
-      return false
-    }
-    return true
+    const isToday = isSameDay(selectedDay, new Date())
+
+    const isTimeInPast = isToday && time < format(new Date(), "HH:mm")
+
+    return !hasBookingOnCurrentTime && (!isToday || !isTimeInPast)
   })
 }
 
@@ -121,7 +121,6 @@ const ServiceItem = ({ service, shop }: ServiceItemProps) => {
       await createBooking({
         serviceId: service.id,
         date: newDate,
-        shopId: shop.id,
       })
 
       toast.success("Reserva efetuada com sucesso")
@@ -153,7 +152,7 @@ const ServiceItem = ({ service, shop }: ServiceItemProps) => {
               <p className="text-primary">
                 {Intl.NumberFormat("pt-BR", {
                   style: "currency",
-                  currency: "BRL",
+                  currency: "MZN",
                 }).format(Number(service.price))}
               </p>
               <Sheet
@@ -208,7 +207,7 @@ const ServiceItem = ({ service, shop }: ServiceItemProps) => {
 
                   {selectedDay && (
                     <div className="flex gap-4 overflow-x-auto border-b border-solid p-3 [&::-webkit-scrollbar]:hidden">
-                      {getTimeList(daysBookings).map((time) => (
+                      {getTimeList(daysBookings, selectedDay).map((time) => (
                         <Button
                           onClick={() => handleTimeSelect(time)}
                           key={time}
@@ -232,7 +231,7 @@ const ServiceItem = ({ service, shop }: ServiceItemProps) => {
                             <p className="text-sm font-bold">
                               {Intl.NumberFormat("pt-BR", {
                                 style: "currency",
-                                currency: "BRL",
+                                currency: "MZN",
                               }).format(Number(service.price))}
                             </p>
                           </div>
