@@ -3,7 +3,7 @@ import "./globals.css"
 import Footer from "./_components/footer"
 import AuthProvider from "./providers/auth"
 
-// const inter = Inter({ subsets: ["latin"] })
+import { Toaster } from "./_components/ui/sonner"
 
 export const metadata: Metadata = {
   title: "MarcaFlex",
@@ -21,6 +21,7 @@ export default function RootLayout({
         <AuthProvider>
           <div className="flex h-full flex-col">
             <div className="flex-1">{children}</div>
+            <Toaster />
             <Footer />
           </div>
         </AuthProvider>

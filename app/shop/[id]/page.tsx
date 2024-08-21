@@ -88,7 +88,7 @@ SERVICOS */}
         <h2 className="font-bol text-xs uppercase text-gray-400">Serviço</h2>
         <div className="space-y-3">
           {shop?.ShopServices.map((service) => (
-            <ServiceItem service={service} key={service.id} />
+            <ServiceItem shop={shop} service={service} key={service.id} />
           ))}
         </div>
       </div>
